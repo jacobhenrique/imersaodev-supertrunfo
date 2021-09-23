@@ -52,20 +52,7 @@ function sortearCarta(){
   document.getElementById("btnSortear").disabled =true;
   document.getElementById("btnJogar").disabled=false;
   
-  exibirOpcoes();
-
-}
-
-function exibirOpcoes(){
-  
-  var opcoes = document.getElementById("opcoes");
-  var opcoesTexto = "";
-  
-  for(var atributo in cartaJogador.atributos){
-    opcoesTexto += "<input type='radio' name='atributo' value='" + atributo + "'>" + atributo
-    opcoes.innerHTML = opcoesTexto;
-    
-  }
+  exibirCartaJogador();
   
 }
 
@@ -76,50 +63,72 @@ function obtemAtributoSelecionado(){
     
     if(radioAtributos[indice].checked){
       return radioAtributos[indice].value;
-      
-    }
-    
-  }
-  
+      }
+   }  
 }
 
 function jogar(){
   var atributoSelecionado = obtemAtributoSelecionado();
-  var elementoResultado = document.getElementById("resultado");
+  var divResultado = document.getElementById("resultado");
   var valorCartaJogador = cartaJogador.atributos[atributoSelecionado];
   var valorCartaMaquina = cartaMaquina.atributos[atributoSelecionado];
   //console.log(cartaJogador.atributos[atributoSelecionado]);
   
   if(valorCartaJogador > valorCartaMaquina){
-    elementoResultado.innerHTML = "Você venceu!"
+    htmlResultado = "<p class='resultado-final'> Venceu </p>";
     
   }else if(valorCartaJogador < valorCartaMaquina){
     
-    elementoResultado.innerHTML = "Você perdeu, a carta da máquina é maior!"
+    htmlResultado = "<p class='resultado-final'> Perdeu </p>";
     
   }else{
     
-    elementoResultado.innerHTML = "Empate"
+    htmlResultado = "<p class='resultado-final'> Empate </p>";
     
   }
+  console.log(cartaMaquina);
+  divResultado.innerHTML = htmlResultado;
+  
+  document.getElementById('btnJogar').disabled;
+  exibirCartaMaquina();
   
 }
 
 function exibirCartaJogador(){
   var divCartaJogador = document.getElementById("carta-jogador");
-  divCartaJogador.style.backgroundImage= `url(${cartaJogador.imagem})`
+  divCartaJogador.style.backgroundImage= `url(${cartaJogador.imagem})`;
   //modo de fazer a mesma coisa
   //divCartaJogador.style.backgroundImage= "url(" + cartaJogador.imagem + ")"
  var moldura = '<img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/card-super-trunfo-transparent-ajustado.png" style=" width: inherit; height: inherit; position: absolute;">';
-  var tagHTML = "<div i='opcoes' class='carta-status'>"
+  var tagHTML = "<div i='opcoes' class='carta-status'>";
   
   var opcoesTexto = "";
   
   for(var atributo in cartaJogador.atributos){
-    opcoesTexto += "<input type='radio' name='atributo' value='" + atributo + "'>" + atributo + " " + cartaJogador.atributos[atributo] + "<br>";
+    opcoesTexto += "<input type='radio' name='atributo' value='" + atributo + "'>" + atributo + " " + cartaJogador.atributos[atributo];
   }
 
-  var nome = `<p> class="carta-subtitle">${cartaJogador.nome} </p>`
+  var nome = `<p> class="carta-subtitle">${cartaJogador.nome} </p>`;
   
-  divCartaJogador.innerHTML = moldura + nome + tagHTML + opcoesTexto + '</div>'
+  divCartaJogador.innerHTML = moldura + nome + tagHTML + opcoesTexto + '</div>';
 }
+
+function exibirCartaMaquina(){
+  var divCartaMaquina = document.getElementById("carta-maquina");
+  divCartaMaquina.style.backgroundImage= `url(${cartaMaquina.imagem})`
+  //modo de fazer a mesma coisa
+  //divCartaJogador.style.backgroundImage= "url(" + cartaJogador.imagem + ")"
+ var moldura = '<img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/card-super-trunfo-transparent-ajustado.png" style=" width: inherit; height: inherit; position: absolute;">';
+  var tagHTML = "<div i='opcoes' class='carta-status'>";
+  
+  var opcoesTexto = "";
+  
+  for(var atributo in cartaMaquina.atributos){
+    opcoesTexto += "<p type='text' name='atributo' value='" + atributo + "'>" + atributo + " " + cartaMaquina.atributos[atributo] + "</p>";
+  }
+
+  var nome = `<p> class="carta-subtitle">${cartaMaquina.nome} </p>`
+  
+  divCartaMaquina.innerHTML = moldura + nome + tagHTML + opcoesTexto + '</div>'
+}
+  
